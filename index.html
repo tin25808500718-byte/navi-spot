@@ -605,6 +605,24 @@
       display: block;
     }
 
+    /* ===== BANNER CUỐI TRANG =====
+       Ảnh luôn co theo chiều rộng khung (không tràn ra ngoài màn hình),
+       chiều cao tự tính theo đúng tỉ lệ ảnh nên không bị cắt và không bị méo.
+       Muốn chỉnh lề hai bên: đổi số 16px ở margin.
+       Muốn bo góc: đổi border-radius (0 = vuông góc). */
+    .banner-bottom {
+      margin: 0 16px 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .banner-bottom img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+    }
+
     .hidden {
       display: none !important;
     }
@@ -639,12 +657,11 @@ padding: 16px 12px 20px;
 .room-list.all .room-card {
 flex: 0 0 100%;
 }
+.banner-bottom {
+margin: 0 12px 16px;
+}
 }
 @media (max-width: 600px) {
-html,
-body {
-overflow-x: hidden;
-}
 .btn-collapse {
 right: 12px;
 bottom: 12px;
@@ -654,35 +671,6 @@ font-size: 12px;
 padding: 6px;
 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-}
-html,
-body {
-max-width: 100%;
-overflow-x: hidden;
-}
-
-.banner-section {
-width: 100%;
-margin: 0;
-padding: 0;
-}
-
-.banner-box {
-width: 100%;
-aspect-ratio: 680 / 87;
-overflow: hidden;
-position: relative;
-background: #C9D8D6;
-}
-
-.banner-img {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-object-fit: cover;
-display: block;
 }
   </style>
 </head>
@@ -822,12 +810,12 @@ display: block;
     <video class="ktx-img" autoplay muted loop playsinline>
       <source src="https://ueh-nexus.my.canva.site/navi-spot/_assets/video/4a9333d549d333672b48b68de233591c.mp4" type="video/mp4">
     </video>
-    <section class="banner-section">
-  <div class="banner-box">
-  <img src="https://i.postimg.cc/YqW7D3dp/Screenshot-2026-10-09-203602.png" alt="Banner" class="banner-img">
+  </section>
+  <!-- Banner cuối trang: ảnh nằm trong khung .banner-bottom để co giãn theo màn hình -->
+  <div class="banner-bottom">
+    <img src="https://i.postimg.cc/YqW7D3dp/Screenshot-2026-10-09-203602.png" alt="Banner" loading="lazy">
   </div>
-  </section>
-  </section>
+
 </div>
 <button class="btn-collapse hidden" id="collapseBtn" type="button">Thu gọn</button>
 <script>
