@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NAVI-SPOT</title>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal: #0B5D63;
+      --teal-light: #0E7C84;
+      --orange: #D9692B;
+      --text: #1F2A2E;
+      --muted: #5B6B70;
+      --icon-bg: #0B5D63;
+      --page-bg: #F4F7F7;
+      --frame-bg: #C9D8D6;
+      --shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: var(--page-bg);
+      color: var(--text);
+    }
+
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #FFFFFF;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Ảnh UEH */
+    .logo img {
+      display: block;
+      width: 100px;
+      height: auto;
+    }
+
+    /* Hai khung chữ xếp dọc */
+    .stack {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: "Be Vietnam Pro", Arial, sans-serif;
+      font-weight: 400;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    /* Khung cam: Design Thinking Project */
+
+    /* Khung xanh: Developed by Insight Hunters */
+
+    /* Điện thoại (màn hình dưới 600px) */
+    @media (max-width: 600px) {
+      .header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .tag--big {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+
+    /* ===== HERO (ẢNH TÒA NHÀ + THANH CHỌN) ===== */
+    .hero {
+      position: relative;
+      height: 340px;
+    }
+
+    .hero-bg {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    /* Ảnh tòa nhà */
+    .hero-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 74%;
+      display: block;
+    }
+
+    .selector {
+      position: absolute;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      background: #FFFFFF;
+      border-radius: 14px;
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr;
+      gap: 8px;
+      box-shadow: var(--shadow);
+      z-index: 5;
+    }
+
+    .field-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: none;
+      background: #FFFFFF;
+      border-radius: 10px;
+      padding: 4px 8px 4px 4px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--teal);
+      text-align: left;
+      height: 40px;
+      box-shadow: 0 0 0 1px #E3EBEB inset;
+    }
+
+    .dropdown-btn:focus-visible {
+      outline: 2px solid var(--teal-light);
+    }
+
+    .dropdown-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--icon-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .dropdown-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: #FFFFFF;
+    }
+
+    /* Kích thước icon ảnh: chỉnh 18px ở đây, không ảnh hưởng ô tròn */
+    .icon-img {
+      width: 18px;
+      height: 18px;
+      object-fit: contain;
+    }
+
+    .dropdown-value {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-weight: 500;
+    }
+
+    .dropdown-arrow {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .dropdown.open .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      min-width: 100%;
+      max-height: 220px;
+      overflow-y: auto;
+      background: #FFFFFF;
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      padding: 6px 0;
+      list-style: none;
+      display: none;
+      z-index: 20;
+    }
+
+    .dropdown.open .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-menu li {
+      padding: 10px 14px;
+      font-size: 15px;
+      color: var(--text);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .dropdown-menu li:hover {
+      background: #EAF4F4;
+    }
+
+    .dropdown-menu li.selected {
+      color: var(--teal);
+      font-weight: 400;
+    }
+
+    /* ===== POPUP CHỌN PHÒNG THEO TẦNG (dùng cho ô Phòng) ===== */
+    .room-popup {
+      left: auto;
+      right: 0;
+      min-width: 260px;
+      max-height: none;
+      padding: 8px;
+      overflow: visible;
+    }
+
+    .floor-tabs {
+      display: flex;
+      gap: 4px;
+      padding: 4px;
+      background: #F1F5F7;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .floor-tab {
+      flex: 1;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 4px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .floor-tab.active {
+      background: #FFFFFF;
+      color: var(--teal);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .room-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+
+    .room-cell {
+      padding: 8px 4px;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 700;
+      border-radius: 8px;
+      background: #F8FAFC;
+      border: 1px solid #E3EBEB;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .room-cell:hover {
+      border-color: var(--teal);
+      background: #EAF4F4;
+      color: var(--teal);
+    }
+
+    .room-cell.selected {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #FFFFFF;
+    }
+
+    /* ===== GỢI Ý PHÒNG ===== */
+    .suggest {
+      margin: 8px 16px 0;
+      position: relative;
+      background: #FFFFFF;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 42% 1fr;
+      overflow: hidden;
+    }
+
+    /* Khung ảnh cố định, chỉnh height để đổi chiều cao khung */
+    .suggest-frame {
+      width: 100%;
+      height: 170px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--frame-bg);
+    }
+
+    /* Ảnh phòng: chỉnh width để to/nhỏ trong khung, khung không đổi */
+    .suggest-img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .suggest-info {
+      padding: 12px 14px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .suggest-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: #E53935;
+    }
+
+    .suggest-room {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--orange);
+      line-height: 1.1;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .meta-subject {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--orange);
+      margin-top: 2px;
+    }
+
+    /* Nút Dẫn đường (khả dụng) và Chưa khả dụng dùng chung kiểu, chỉ khác trạng thái */
+    .btn-route {
+      display: block;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 10px;
+      border: none;
+      background: var(--teal);
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-route:hover {
+      background: var(--teal-light);
+    }
+
+    .btn-route.is-disabled {
+      opacity: 0.85;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Khung ảnh tạm khi phòng chưa có ảnh: thay bằng ảnh thật bằng cách đổi thành thẻ <img> */
+    .img-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--frame-bg);
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 700;
+      border-radius: 8px;
+      text-align: center;
+      padding: 6px;
+      width: 100%;
+    }
+
+    .suggest-img.img-placeholder {
+      height: 100%;
+      min-height: 170px;
+      border-radius: 0;
+    }
+
+    /* ===== DANH SÁCH PHÒNG HỌC ===== */
+    .list-section {
+      padding: 20px 16px 24px;
+    }
+
+    .list-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .list-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--teal);
+      border-bottom: 2px solid var(--orange);
+      padding-bottom: 2px;
+    }
+
+    .see-all {
+      font-size: 14px;
+      color: var(--teal);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .see-all svg {
+      width: 22px;
+      height: 12px;
+    }
+
+    .room-list {
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Chế độ Xem tất cả: các thẻ xếp thành lưới 2 cột */
+    .room-list.all {
+      flex-wrap: wrap;
+    }
+
+    .room-list.all .room-card {
+      flex: 0 0 calc(50% - 6px);
+    }
+
+    .room-card {
+      flex: 1;
+      min-width: 0;
+      background: #FFFFFF;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    /* Ảnh phòng trong danh sách: chỉnh height để đổi chiều cao ảnh */
+    .room-img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 8px;
+      display: block;
+    }
+
+    .room-img.img-placeholder {
+      height: 110px;
+    }
+
+    .room-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--orange);
+      margin-top: 6px;
+    }
+
+    .room-meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .room-subject {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--orange);
+    }
+
+    /* ===== COMING SOON ===== */
+    .coming-soon {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 36px 16px;
+      background: #F7FAFA;
+      border: 2px dashed #B9CFCF;
+      border-radius: 14px;
+      color: var(--teal);
+    }
+
+    .coming-soon.show {
+      display: flex;
+    }
+
+    .coming-soon .cs-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--icon-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .coming-soon .cs-icon svg {
+      width: 26px;
+      height: 26px;
+      fill: #FFFFFF;
+    }
+
+    .coming-soon h3 {
+      font-size: 20px;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+
+    .coming-soon p {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ===== PHẦN DƯỚI TRANG ===== */
+    .divider {
+      width: 80%;
+      height: 2px;
+      background: var(--orange);
+      margin: 20px auto;
+    }
+
+    .ktx {
+      position: relative;
+      margin: 0 16px 20px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .ktx-img {
+      width: 100%;
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+    @media (max-width: 600px) {
+.hero {
+height: 300px;
+}
+.selector {
+left: 8px;
+right: 8px;
+bottom: 8px;
+padding: 8px;
+gap: 6px;
+}
+.field-label {
+font-size: 12px;
+}
+.dropdown-btn {
+font-size: 13px;
+padding: 4px 6px 4px 4px;
+}
+.suggest {
+grid-template-columns: 1fr;
+margin: 8px 12px 0;
+}
+.suggest-frame {
+height: 170px;
+}
+.list-section {
+padding: 16px 12px 20px;
+}
+.room-list.all .room-card {
+flex: 0 0 100%;
+}
+.banner-img {
+margin-top: -10%;
+}
+}
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== HEADER ===== -->
+  <div class="header">
+    <a class="logo" href="#">
+      <img src="https://ueh-nexus.my.canva.site/main-page/_assets/media/179cc33b0e4b0de9b1e046d6d5d7aa54.png" alt="Logo">
+    </a>
+
+    <div class="stack">
+      <a class="tag tag--small" href="https://ueh-nexus.my.canva.site/main-page" target="_blank" rel="noopener nofollow">
+      </a>
+
+      <a class="tag tag--big" href="https://ueh-nexus.my.canva.site/main-page" target="_blank" rel="noopener nofollow">
+      </a>
+    </div>
+  </div>
+
+  <!-- ===== HERO: ẢNH TÒA NHÀ + THANH CHỌN ===== -->
+  <section class="hero">
+    <div class="hero-bg">
+      <img src="https://ueh-nexus.my.canva.site/navi-spot/_assets/media/1f9abe34f2bab9cc346ecbaa1228f476.jpg" alt="Tòa nhà UEH" class="hero-img">
+    </div>
+
+    <div class="selector">
+
+      <!-- Cơ sở -->
+      <div>
+        <span class="field-label">Cơ sở:</span>
+        <div class="dropdown" data-field="campus">
+          <button class="dropdown-btn" type="button" aria-haspopup="listbox">
+            <span class="dropdown-icon">
+              <img src="https://i.postimg.cc/hjyq9z40/anhcoso.png" alt="Cơ sở" class="icon-img">
+            </span>
+            <span class="dropdown-value">UEH - CS.B</span>
+            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5">
+              <path d="M6 9l6 6 6-6M6 15l6 6 6-6"/>
+            </svg>
+          </button>
+          <ul class="dropdown-menu" role="listbox"></ul>
+        </div>
+      </div>
+
+      <!-- Tòa -->
+      <div>
+        <span class="field-label">Toà:</span>
+        <div class="dropdown" data-field="building">
+          <button class="dropdown-btn" type="button" aria-haspopup="listbox">
+            <span class="dropdown-icon">
+              <img src="https://i.postimg.cc/rwHdVsL6/e993dda3-7f85-4284-be0a-0c875c138e27.png" alt="Tòa" class="icon-img">
+            </span>
+            <span class="dropdown-value">B2</span>
+            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5">
+              <path d="M6 9l6 6 6-6M6 15l6 6 6-6"/>
+            </svg>
+          </button>
+          <ul class="dropdown-menu" role="listbox"></ul>
+        </div>
+      </div>
+
+      <!-- Phòng: popup gồm thanh tầng và lưới ô phòng -->
+      <div>
+        <span class="field-label">Phòng:</span>
+        <div class="dropdown" data-field="room">
+          <button class="dropdown-btn" type="button" aria-haspopup="listbox">
+            <span class="dropdown-icon">
+              <img src="https://i.postimg.cc/52X0RJQP/downloaddd.png" alt="Phòng" class="icon-img">
+            </span>
+            <span class="dropdown-value">412</span>
+            <svg class="dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5">
+              <path d="M6 9l6 6 6-6M6 15l6 6 6-6"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu room-popup">
+            <div class="floor-tabs" id="floorTabs"></div>
+            <div class="room-grid" id="roomGrid"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== NỘI DUNG PHÒNG (ẩn khi cơ sở chưa có dữ liệu) ===== -->
+  <div id="room-area">
+
+    <!-- Gợi ý phòng: nội dung được điền bởi JavaScript -->
+    <section class="suggest">
+      <div class="suggest-frame" id="sug-frame"></div>
+      <div class="suggest-info">
+        <span class="suggest-title">Gợi ý dựa trên lịch học của bạn:</span>
+        <span class="suggest-room" id="sug-room"></span>
+        <span class="meta" id="sug-capacity"></span>
+        <span class="meta">Môn học đang được tổ chức:</span>
+        <span class="meta-subject" id="sug-subject"></span>
+        <div id="sug-route"></div>
+      </div>
+    </section>
+
+    <!-- Danh sách phòng học: được tạo bởi JavaScript -->
+    <section class="list-section">
+      <div class="list-head">
+        <h2 class="list-title">Danh sách phòng học:</h2>
+        <a class="see-all" id="seeAll">
+          Xem tất cả
+          <svg viewBox="0 0 22 12" fill="none" stroke="#D9692B" stroke-width="2">
+            <path d="M0 6h20M15 1l5 5-5 5"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="room-list" id="room-list"></div>
+    </section>
+
+  </div>
+
+  <!-- ===== COMING SOON ===== -->
+  <section class="list-section" id="coming-soon-wrap" style="display: none;">
+    <div class="coming-soon" id="coming-soon">
+      <div class="cs-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2zm0-4h-2V7h2z"/>
+        </svg>
+      </div>
+      <h3>Coming soon</h3>
+      <p>Dữ liệu phòng của cơ sở này đang được cập nhật.</p>
+    </div>
+  </section>
+
+  <!-- ===== PHẦN DƯỚI TRANG ===== -->
+  <div class="divider"></div>
+
+  <section class="ktx">
+    <video class="ktx-img" autoplay muted loop playsinline>
+      <source src="https://ueh-nexus.my.canva.site/navi-spot/_assets/video/4a9333d549d333672b48b68de233591c.mp4" type="video/mp4">
+    </video>
+  </section>
+  <img src="https://i.postimg.cc/YqW7D3dp/Screenshot-2026-10-09-203602.png">
+
+</div>
+
+<script>
+  // ===== DANH SÁCH PHÒNG CỦA TÒA B2: 5 tầng, mỗi tầng 12 phòng (101 đến 512) =====
+  const B2_ROOMS = [];
+  for (let floor = 1; floor <= 5; floor++) {
+    for (let n = 1; n <= 12; n++) {
+      B2_ROOMS.push(`${floor}${String(n).padStart(2, "0")}`);
+    }
+  }
+
+  // ===== DỮ LIỆU MẪU =====
+  const DATA = {
+    campuses: ["UEH - CS.A", "UEH - CS.B", "UEH - CS.C"],
+    buildings: {
+      "UEH - CS.B": ["B1", "B2"]
+    },
+    rooms: {
+      "B2": B2_ROOMS
+    },
+    hasData: {
+      "UEH - CS.A": false,
+      "UEH - CS.B": true,
+      "UEH - CS.C": false
+    }
+  };
+
+  // ===== THÔNG TIN PHÒNG CÓ SẴN =====
+  // Khóa là "tòa.phòng". Đây là 3 phòng ban đầu.
+  // img: đường dẫn ảnh. Để trống "" thì hiện khung "Chèn ảnh".
+  // route: link dẫn đường riêng. Không có route thì nút dùng dan-duong.html?toa=...&phong=...
+  // unavailable: true thì nút hiện "Dẫn đường (Chưa khả dụng)" và không nhấn được.
+  const ROOM_INFO = {
+    "B2.412": {
+      img: "https://ueh-nexus.my.canva.site/navi-spot/_assets/media/c2b1f4c177a83427d88c096fa3280aec.jpg",
+      capacity: 60,
+      subject: "Tư duy thiết kế",
+      route: "https://ueh-nexus.my.canva.site/b2-412"
+    },
+    "B2.311": {
+      img: "https://ueh-nexus.my.canva.site/navi-spot/_assets/media/678b9c8991bce7d5b41d5a8b4467920b.jpg",
+      capacity: 120,
+      subject: "Kinh tế vi mô",
+      route: "https://b2311.my.canva.site/"
+    },
+    "B2.411": {
+      img: "https://ueh-nexus.my.canva.site/navi-spot/_assets/media/678b9c8991bce7d5b41d5a8b4467920b.jpg",
+      capacity: 120,
+      subject: "Toán ứng dụng",
+      unavailable: true
+    }
+  };
+
+  // Các phòng hiển thị trong danh sách mặc định (2 thẻ)
+  const FEATURED_ROOMS = ["B2.412", "B2.311", "B2.411"];
+
+  // Mặc định cho phòng chưa có khối riêng trong ROOM_INFO:
+  // dùng ảnh chung, sức chứa 60, chưa khả dụng.
+  // Muốn sửa riêng một phòng, thêm khối của phòng đó vào ROOM_INFO.
+  const DEFAULT_ROOM = {
+    img: "https://ueh-nexus.my.canva.site/navi-spot/_assets/media/678b9c8991bce7d5b41d5a8b4467920b.jpg",
+    capacity: 60,
+    subject: "Đang cập nhật",
+    unavailable: true
+  };
+
+  function getRoomInfo(key) {
+    return ROOM_INFO[key] || DEFAULT_ROOM;
+  }
+
+  const state = {
+    campus: "UEH - CS.B",
+    building: "B2",
+    room: "412",
+    showAll: false
+  };
+
+  // Tầng đang xem trong popup Phòng (null = tự chọn theo phòng đang chọn)
+  let currentFloor = null;
+
+  const $ = (sel, root = document) => root.querySelector(sel);
+  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+
+  function getDropdown(field) {
+    return $(`.dropdown[data-field="${field}"]`);
+  }
+
+  function setDisplay(field, value) {
+    $(".dropdown-value", getDropdown(field)).textContent = value || "—";
+  }
+
+  function fillMenu(field, items, selected) {
+    const menu = $(".dropdown-menu", getDropdown(field));
+    menu.innerHTML = "";
+    items.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      li.dataset.value = item;
+      if (item === selected) {
+        li.classList.add("selected");
+      }
+      li.addEventListener("click", e => {
+        e.stopPropagation();
+        selectValue(field, item);
+      });
+      menu.appendChild(li);
+    });
+  }
+
+  function closeAll() {
+    $$(".dropdown.open").forEach(d => d.classList.remove("open"));
+  }
+
+  // ===== POPUP PHÒNG THEO TẦNG =====
+  function roomsByFloor(building) {
+    const map = {};
+    (DATA.rooms[building] || []).forEach(room => {
+      const floor = room.charAt(0);
+      (map[floor] = map[floor] || []).push(room);
+    });
+    return map;
+  }
+
+  function renderRoomPopup() {
+    const byFloor = roomsByFloor(state.building);
+    const floors = Object.keys(byFloor).sort();
+
+    if (!floors.includes(currentFloor)) {
+      currentFloor = state.room ? state.room.charAt(0) : floors[0];
+    }
+
+    const tabs = $("#floorTabs");
+    tabs.innerHTML = "";
+    floors.forEach(floor => {
+      const tab = document.createElement("div");
+      tab.className = "floor-tab" + (floor === currentFloor ? " active" : "");
+      tab.textContent = `Tầng ${floor}`;
+      tab.addEventListener("click", e => {
+        e.stopPropagation();
+        currentFloor = floor;
+        renderRoomPopup();
+      });
+      tabs.appendChild(tab);
+    });
+
+    const grid = $("#roomGrid");
+    grid.innerHTML = "";
+    (byFloor[currentFloor] || []).forEach(room => {
+      const cell = document.createElement("div");
+      cell.className = "room-cell" + (room === state.room ? " selected" : "");
+      cell.textContent = room;
+      cell.addEventListener("click", e => {
+        e.stopPropagation();
+        selectValue("room", room);
+      });
+      grid.appendChild(cell);
+    });
+  }
+
+  function selectValue(field, value) {
+    closeAll();
+    // Mọi lựa chọn đều đưa giao diện về trạng thái ban đầu (không còn Xem tất cả)
+    state.showAll = false;
+
+    if (field === "campus") {
+      state.campus = value;
+      const buildings = DATA.buildings[value] || [];
+      state.building = buildings[0] || null;
+      fillMenu("building", buildings, state.building);
+      setDisplay("building", state.building);
+      const rooms = state.building ? (DATA.rooms[state.building] || []) : [];
+      state.room = rooms[0] || null;
+      setDisplay("room", state.room);
+      currentFloor = null;
+    }
+
+    if (field === "building") {
+      state.building = value;
+      const rooms = DATA.rooms[value] || [];
+      state.room = rooms[0] || null;
+      setDisplay("room", state.room);
+      currentFloor = null;
+    }
+
+    if (field === "room") {
+      state.room = value;
+    }
+
+    setDisplay(field, value);
+    updateContent();
+  }
+
+  // ===== HTML ẢNH: ảnh thật, hoặc khung "Chèn ảnh" nếu chưa có =====
+  function imgHtml(info, key, cls) {
+    if (info.img) {
+      return `<img src="${info.img}" alt="Phòng ${key}" class="${cls}">`;
+    }
+    return `<div class="${cls} img-placeholder">Chèn ảnh PHÒNG ${key}</div>`;
+  }
+
+  // Dòng sức chứa: có số thì hiện số, chưa có thì ghi đang cập nhật
+  function capText(info) {
+    return info.capacity
+      ? `Sức chứa: ${info.capacity} sinh viên`
+      : "Sức chứa: đang cập nhật";
+  }
+
+  // Nút Dẫn đường: khả dụng và chưa khả dụng dùng chung class .btn-route
+  function routeButton(key, info) {
+    if (info.unavailable) {
+      return `<a class="btn-route is-disabled" aria-disabled="true">Dẫn đường (Chưa khả dụng)</a>`;
+    }
+    const [toa, phong] = key.split(".");
+    const href = info.route || `dan-duong.html?toa=${toa}&phong=${phong}`;
+    return `<a class="btn-route" href="${href}">Dẫn đường</a>`;
+  }
+
+  // ===== Ô GỢI Ý: phòng đang chọn =====
+  function renderSuggest() {
+    if (!state.room) {
+      return;
+    }
+    const key = `${state.building}.${state.room}`;
+    const info = getRoomInfo(key);
+    $("#sug-frame").innerHTML = imgHtml(info, key, "suggest-img");
+    $("#sug-room").textContent = `PHÒNG ${key}`;
+    $("#sug-capacity").textContent = capText(info);
+    $("#sug-subject").textContent = info.subject;
+    $("#sug-route").innerHTML = routeButton(key, info);
+  }
+
+  // ===== DANH SÁCH =====
+  // Mặc định: 2 phòng nổi bật (trừ phòng đang chọn).
+  // Xem tất cả: toàn bộ phòng của tòa (trừ phòng đang chọn).
+  function renderRoomList() {
+    const list = $("#room-list");
+    list.innerHTML = "";
+    list.classList.toggle("all", state.showAll);
+
+    if (!state.room) {
+      return;
+    }
+    const current = `${state.building}.${state.room}`;
+
+    let keys;
+    if (state.showAll) {
+      keys = (DATA.rooms[state.building] || [])
+        .map(room => `${state.building}.${room}`)
+        .filter(key => key !== current);
+    } else {
+      keys = FEATURED_ROOMS
+        .filter(key => key.startsWith(state.building + ".") && key !== current)
+        .slice(0, 2);
+    }
+
+    keys.forEach(key => {
+      const info = getRoomInfo(key);
+      const card = document.createElement("div");
+      card.className = "room-card";
+      card.dataset.room = key.split(".")[1];
+      card.innerHTML = `
+        ${imgHtml(info, key, "room-img")}
+        <span class="room-name">PHÒNG ${key}</span>
+        <span class="room-meta">${capText(info)}</span>
+        <span class="room-meta">Môn học đang được tổ chức:</span>
+        <span class="room-subject">${info.subject}</span>
+        ${routeButton(key, info)}
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function updateContent() {
+    renderSuggest();
+    renderRoomList();
+
+    const hasData = DATA.hasData[state.campus];
+    $("#room-area").classList.toggle("hidden", !hasData);
+    $("#coming-soon-wrap").style.display = hasData ? "none" : "block";
+    $("#coming-soon").classList.toggle("show", !hasData);
+  }
+
+  // Nhấn "Xem tất cả": hiện toàn bộ phòng của tòa
+  $("#seeAll").addEventListener("click", e => {
+    e.preventDefault();
+    state.showAll = true;
+    updateContent();
+  });
+
+  // Nhấn thẻ phòng trong danh sách để chọn phòng.
+  // Nhấn nút Dẫn đường thì không đổi phòng.
+  $("#room-list").addEventListener("click", e => {
+    if (e.target.closest("a")) {
+      return;
+    }
+    const card = e.target.closest(".room-card");
+    if (!card) {
+      return;
+    }
+    selectValue("room", card.dataset.room);
+  });
+
+  // Mở/đóng dropdown. Mở ô Phòng thì dựng lại popup theo phòng đang chọn.
+  $$(".dropdown").forEach(dd => {
+    $(".dropdown-btn", dd).addEventListener("click", e => {
+      e.stopPropagation();
+      const isOpen = dd.classList.contains("open");
+      closeAll();
+      if (!isOpen) {
+        dd.classList.add("open");
+        if (dd.dataset.field === "room") {
+          currentFloor = null;
+          renderRoomPopup();
+        }
+      }
+    });
+  });
+
+  // Nhấn bên trong popup Phòng không làm popup đóng
+  $(".room-popup").addEventListener("click", e => {
+    e.stopPropagation();
+  });
+
+  // Nhấn ra ngoài thì đóng dropdown
+  document.addEventListener("click", closeAll);
+
+  fillMenu("campus", DATA.campuses, state.campus);
+  setDisplay("campus", state.campus);
+  fillMenu("building", DATA.buildings[state.campus], state.building);
+  setDisplay("building", state.building);
+  setDisplay("room", state.room);
+  updateContent();
+</script>
+</body>
+</html>
