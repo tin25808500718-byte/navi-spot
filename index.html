@@ -639,14 +639,22 @@ padding: 16px 12px 20px;
 .room-list.all .room-card {
 flex: 0 0 100%;
 }
-.banner-wrap {
-height: 120px;
-}
-.banner-img {
-margin-top: -10%;
-}
 }
 @media (max-width: 600px) {
+html,
+body {
+overflow-x: hidden;
+}
+.banner-wrap {
+height: auto;
+overflow: hidden;
+}
+.banner-img {
+width: 100%;
+max-width: 100%;
+height: auto;
+margin-top: 0;
+}
 .btn-collapse {
 right: 12px;
 bottom: 12px;
