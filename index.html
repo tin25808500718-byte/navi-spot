@@ -50,6 +50,7 @@
       display: block;
       width: 100px;
       height: auto;
+      margin-left: 10px;
     }
 
     /* Hai khung chữ xếp dọc */
@@ -461,7 +462,39 @@
     .room-list.all .room-card {
       flex: 0 0 calc(50% - 6px);
     }
+    .collapse-wrap {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+    margin-right: 8px;
+    }
 
+   .btn-collapse {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 50;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: rgb(11, 93, 99);
+    color: #FFFFFF;
+    border: none;
+    padding: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-collapse:hover {
+    background: var(--teal-light);
+    }
     .room-card {
       flex: 1;
       min-width: 0;
@@ -606,8 +639,22 @@ padding: 16px 12px 20px;
 .room-list.all .room-card {
 flex: 0 0 100%;
 }
+.banner-wrap {
+height: 120px;
+}
 .banner-img {
 margin-top: -10%;
+}
+}
+@media (max-width: 600px) {
+.btn-collapse {
+right: 12px;
+bottom: 12px;
+width: 60px;
+height: 60px;
+font-size: 12px;
+padding: 6px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 }
   </style>
@@ -752,7 +799,7 @@ margin-top: -10%;
   <img src="https://i.postimg.cc/YqW7D3dp/Screenshot-2026-10-09-203602.png">
 
 </div>
-
+<button class="btn-collapse hidden" id="collapseBtn" type="button">Thu gọn</button>
 <script>
   // ===== DANH SÁCH PHÒNG CỦA TÒA B2: 5 tầng, mỗi tầng 12 phòng (101 đến 512) =====
   const B2_ROOMS = [];
@@ -1031,6 +1078,7 @@ margin-top: -10%;
     $("#room-area").classList.toggle("hidden", !hasData);
     $("#coming-soon-wrap").style.display = hasData ? "none" : "block";
     $("#coming-soon").classList.toggle("show", !hasData);
+    $("#collapseBtn").classList.toggle("hidden", !state.showAll);
   }
 
   // Nhấn "Xem tất cả": hiện toàn bộ phòng của tòa
@@ -1039,7 +1087,11 @@ margin-top: -10%;
     state.showAll = true;
     updateContent();
   });
-
+  $("#collapseBtn").addEventListener("click", e => {
+  e.preventDefault();
+  state.showAll = false;
+  updateContent();
+  });
   // Nhấn thẻ phòng trong danh sách để chọn phòng.
   // Nhấn nút Dẫn đường thì không đổi phòng.
   $("#room-list").addEventListener("click", e => {
