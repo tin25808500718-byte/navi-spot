@@ -80,6 +80,7 @@
       .header {
         flex-direction: column;
         align-items: flex-start;
+        gap: 5;
       }
       .tag--big {
         font-size: 20px;
@@ -611,7 +612,7 @@
        Muốn chỉnh lề hai bên: đổi số 16px ở margin.
        Muốn bo góc: đổi border-radius (0 = vuông góc). */
     .banner-bottom {
-      margin: 0 0px 20px;
+      margin: 5px 0 0;
       border-radius: 0px;
       overflow: hidden;
     }
@@ -658,7 +659,7 @@ padding: 16px 12px 20px;
 flex: 0 0 100%;
 }
 .banner-bottom {
-margin: 0 12px 16px;
+margin: 12px 0 0;
 }
 }
 @media (max-width: 600px) {
@@ -812,11 +813,11 @@ box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     </video>
   </section>
   <!-- Banner cuối trang: ảnh nằm trong khung .banner-bottom để co giãn theo màn hình -->
+</div>
+ <!-- Banner cuối trang: ảnh nằm trong khung .banner-bottom để co giãn theo màn hình -->
   <div class="banner-bottom">
     <img src="https://i.postimg.cc/YqW7D3dp/Screenshot-2026-10-09-203602.png" alt="Banner" loading="lazy">
   </div>
-
-</div>
 <button class="btn-collapse hidden" id="collapseBtn" type="button">Thu gọn</button>
 <script>
   // ===== DANH SÁCH PHÒNG CỦA TÒA B2: 5 tầng, mỗi tầng 12 phòng (101 đến 512) =====
